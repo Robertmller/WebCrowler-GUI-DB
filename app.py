@@ -2,6 +2,8 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import os
+from time import sleep
+import random
 
 # Sequencia lógica:
 
@@ -13,30 +15,45 @@ driver = webdriver.Chrome(
 driver.get('https://www.mercadolivre.com.br')
 
 # Pesquisar por produto
+sleep(random.randint(3, 5))
 barraDePesquisa = driver.find_element_by_xpath(
     "//input[@class='nav-search-input']")
+
+sleep(random.randint(3, 5))
 barraDePesquisa.click()
+
+sleep(random.randint(3, 5))
 barraDePesquisa.send_keys('Pc Gamer')
+
+sleep(random.randint(3, 5))
 barraDePesquisa.send_keys(Keys.ENTER)
+sleep(random.randint(3, 5))
 
-# Extrair
-#   - Titulo
-pcGamerTitulo = driver.find_elements_by_xpath(
-    "//h2[@class='ui-search-item__title ui-search-item__group__element']")
+while True:
+    # Extrair
 
-#   - Preços
-pcGamerPreco = driver.find_elements_by_xpath(
-    "//div[@class='ui-search-price ui-search-price--size-medium ui-search-item__group__element']//span[@class='price-tag ui-search-price__part']//span[@class='price-tag-amount']//span[@class='price-tag-fraction']")
+    #   - Titulo
+    sleep(random.randint(3, 5))
+    tituloDoProduto = driver.find_elements_by_xpath(
+        "//h2[@class='ui-search-item__title ui-search-item__group__element']")
 
-for pcs in pcGamerTitulo:
-    for precos in pcGamerPreco:
-        print(f"{pcs.text}: R${precos.text}")
-        if pcs and precos == 10:
-            break
+    #   - Preços
+    sleep(random.randint(3, 5))
+    precoDoProduto = driver.find_elements_by_xpath(
+        "//div[@class='ui-search-price ui-search-price--size-medium ui-search-item__group__element']//span[@class='price-tag ui-search-price__part']//span[@class='price-tag-amount']//span[@class='price-tag-fraction']")
 
+    # Salvando informações em TEXT
+    for Titulo, Preco in zip(tituloDoProduto, precoDoProduto):
+        with open('produtos.txt', 'a', newline='', encoding='utf-8') as arquivo:
+            arquivo.write(f"{Titulo.text} - R${Preco.text}" + os.linesep)
 
-# //div[@class='ui-search-price ui-search-price--size-medium ui-search-item__group__element']
-# //span[@class='price-tag-fraction']
+    # Navegar para próxima página
+    sleep(random.randint(3, 5))
+    driver.execute_script('window.scrollTo(0, document.body.scrollHeight);')
+    botaoDeProximo = driver.find_element_by_xpath(
+        "//li[@class='andes-pagination__button andes-pagination__button--next']")
 
-# Navegar para próxima página
+    sleep(random.randint(3, 5))
+    botaoDeProximo.click()
+
 # Agendar execução
