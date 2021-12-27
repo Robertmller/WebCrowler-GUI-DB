@@ -4,7 +4,14 @@ from selenium.webdriver.common.keys import Keys
 import os
 from time import sleep
 import random
+
+import json
+from pathlib import Path
+
 #import schedule
+
+# Exportando dados JSON
+
 
 # Se quiser agendar execução, transforma essa parte em função
 # def buscarPrecos():
@@ -48,8 +55,9 @@ while True:
         "//div[@class='ui-search-price ui-search-price--size-medium ui-search-item__group__element']//span[@class='price-tag ui-search-price__part']//span[@class='price-tag-amount']//span[@class='price-tag-fraction']")
 
     # Salvando informações em TEXT
+    # O Arquivo será salvo com o nome do campo de busca. Ex: Pc Gamer.txt, Celular.txt
     for Titulo, Preco in zip(tituloDoProduto, precoDoProduto):
-        with open('produtos.txt', 'a', newline='', encoding='utf-8') as arquivo:
+        with open(f'{buscar_produto}.txt', 'a', newline='', encoding='utf-8') as arquivo:
             arquivo.write(f"{Titulo.text} - R${Preco.text}" + os.linesep)
 
     # Navegar para próxima página
