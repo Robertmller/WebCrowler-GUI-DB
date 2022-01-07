@@ -8,27 +8,22 @@ import random
 import json
 from pathlib import Path
 
+# Se quiser agendar execução, descomenta essa parte e a do fim da página
 #import schedule
-
-# Exportando dados JSON
-
-
-# Se quiser agendar execução, transforma essa parte em função
 # def buscarPrecos():
 
-# Sequencia lógica:
 
 # Abrir o navegador
 driver = webdriver.Chrome(
     executable_path=os.getcwd() + os.sep + 'chromedriver.exe')
 
 # Pesquisar URL
-driver.get('https://www.mercadolivre.com.br')
+driver.get('https://www.kabum.com.br/')
 
 # Pesquisar por produto
 sleep(random.randint(3, 5))
 barraDePesquisa = driver.find_element_by_xpath(
-    "//input[@class='nav-search-input']")
+    "//*[@id='input-busca']")
 
 sleep(random.randint(3, 5))
 barraDePesquisa.click()
@@ -47,12 +42,12 @@ while True:
     # - Titulo
     sleep(random.randint(3, 5))
     tituloDoProduto = driver.find_elements_by_xpath(
-        "//h2[@class='ui-search-item__title ui-search-item__group__element']")
+        "//*[@class='sc-kHOZwM brabbc sc-fHeRUh jwXwUJ nameCard']")
 
     # - Preços
     sleep(random.randint(3, 5))
     precoDoProduto = driver.find_elements_by_xpath(
-        "//div[@class='ui-search-price ui-search-price--size-medium ui-search-item__group__element']//span[@class='price-tag ui-search-price__part']//span[@class='price-tag-amount']//span[@class='price-tag-fraction']")
+        "//*[@class='sc-iNGGcK fTkZBN priceCard']")
 
     # Salvando informações em TEXT
     # O Arquivo será salvo com o nome do campo de busca. Ex: Pc Gamer.txt, Celular.txt
@@ -65,7 +60,7 @@ while True:
     driver.execute_script(
         'window.scrollTo(0, document.body.scrollHeight);')
     botaoDeProximo = driver.find_element_by_xpath(
-        "//li[@class='andes-pagination__button andes-pagination__button--next']")
+        "//*[@class='nextLink']")
 
     sleep(random.randint(3, 5))
     botaoDeProximo.click()
